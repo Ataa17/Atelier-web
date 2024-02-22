@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Guessing Game</title>
+  </head>
+  <body>
+    <h1>Number Guessing Game</h1>
+    <div class="container">
+      <div id="card-a" class="card">
+        <form id="difficulty-form">
+          <p>Choose a difficulty level:</p>
+
+          <label for="easy">Easy (1-10)</label>
+          <input type="radio" id="easy" name="difficulty" value="easy" />
+          <br />
+          <label for="medium">Medium (1-20)</label>
+          <input type="radio" id="medium" name="difficulty" value="medium" />
+          <br />
+          <label for="hard">Hard (1-50)</label>
+          <input type="radio" id="hard" name="difficulty" value="hard" />
+          <br />
+          <button type="button" onclick="startGame()">Start Game</button>
+        </form>
+      </div>
+
+      <div class="card hidden" id="game-container" style="display: none">
+        <p id="guess-message"></p>
+        <input type="number" id="guess-input" />
+        <button type="button" onclick="checkGuess()">Guess</button>
+        <p id="guesses-remaining"></p>
+      </div>
+    </div>
+    <style>
+    *{
+        font-family: 'Segoe UI' ;
+        text-align: center;
+    }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+      }
+      .card {
+        border: 1px solid #000;
+        height: fit-content;
+        padding: 1rem;
+        border-radius: 10px;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+    <script>
+      let numberToGuess;
+      let difficulty;
+      let guessesRemaining;
+
+      function startGame() {
+        difficulty = document.querySelector(
+          'input[name="difficulty"]:checked'
+        ).value;
+        guessesRemaining =
+          difficulty === "easy" ? 6 : difficulty === "medium" ? 4 : 3;
+        numberToGuess = Math.floor(
+          Math.random() *
+            (difficulty === "easy" ? 10 : difficulty === "medium" ? 20 : 50) +
+            1
+        );
+
+        document.getElementById("difficulty-form").style.display = "none";
+        document.getElementById("card-a").classList.add("hidden");
+        document.getElementById("game-container").style.display = "block";
+        document.getElementById("game-container").classList.remove("hidden");
+        document.getElementById("guess-message").textContent =
+          "Guess a number between 1 and " +
+          (difficulty === "easy" ? 10 : difficulty === "medium" ? 20 : 50);
+        document.getElementById("guesses-remaining").textContent =
+          "Guesses remaining: " + guessesRemaining;
+      }
+
+      function checkGuess() {
+        const guess = parseInt(document.getElementById("guess-input").value);
+
+        if (isNaN(guess)) {
+          alert("Please enter a valid number.");
+          return;
+        }
+
+        guessesRemaining--;
+        document.getElementById("guesses-remaining").textContent =
+          "Guesses remaining: " + guessesRemaining;
+
+        if (guess === numberToGuess) {
+          alert("Congratulations you guessed the right number.");
+          endGame();
+        } else if (guess < numberToGuess) {
+          document.getElementById("guess-message").textContent =
+            "Your guess is too low. Try again.";
+        } else {
+          document.getElementById("guess-message").textContent =
+            "Your guess is too high. Try again.";
+        }
+
+        if (guessesRemaining === 0) {
+          document.getElementById("guess-message").textContent =
+            "You ran out of guesses. The number was " + numberToGuess;
+          endGame();
+        }
+      }
+
+      function endGame() {
+        document.getElementById("guess-input").disabled = false;
+        document.getElementById("difficulty-form").style.display = "block";
+        document.getElementById("card-a").classList.remove("hidden");
+        document.getElementById("guess-input").value = "";
+        document.getElementById("game-container").style.display = "none";
+        document.getElementById("guess-message").textContent = "";
+        document.getElementById("guesses-remaining").textContent = "";
+      }
+    </script>
+  </body>
+</html>

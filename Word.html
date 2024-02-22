@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Word</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="card">
+            <p id="paragraph">Ceci est un exemple de paragraphe.</p>
+      
+            <form class="form">
+              <label for="color-input">Couleur du texte :</label>
+              <input type="color" id="color-input" /><br />
+      
+              <label for="size-input">Taille de la police :</label>
+              <input
+                type="number"
+                id="size-input"
+                min="10"
+                max="50"
+                value="16"
+              /><br />
+      
+              <label for="font-select">Police :</label>
+              <select id="font-select">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Courier New">Courier New</option>
+              </select>
+            </form>
+          </div>
+    </div>
+
+    <style>
+        .container {
+            display:flex ;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+            margin: auto;
+
+        }
+        .card{
+            border: 1px solid #000;
+            height: fit-content;
+            width: fit-content;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 10px;
+            
+        }
+        .form{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            
+        }
+
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const colorInput = document.getElementById("color-input");
+        const sizeInput = document.getElementById("size-input");
+        const fontSelect = document.getElementById("font-select");
+        const paragraph = document.getElementById("paragraph");
+
+        // Fonction pour mettre à jour la couleur du paragraphe
+        function updateColor() {
+          paragraph.style.color = colorInput.value;
+        }
+
+        // Fonction pour mettre à jour la taille de la police
+        function updateSize() {
+          paragraph.style.fontSize = sizeInput.value + "px";
+        }
+
+        // Fonction pour mettre à jour la police du paragraphe
+        function updateFont() {
+          paragraph.style.fontFamily = fontSelect.value;
+        }
+
+        // Écouteurs d'événements pour les changements d'entrée utilisateur
+        colorInput.addEventListener("input", updateColor);
+        sizeInput.addEventListener("input", updateSize);
+        fontSelect.addEventListener("change", updateFont);
+
+        // Appel initial des fonctions de mise à jour
+        updateColor();
+        updateSize();
+        updateFont();
+      });
+    </script>
+  </body>
+</html>
